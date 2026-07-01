@@ -799,8 +799,10 @@
                  <enum>Qt::Horizontal</enum>
                 </property>
                 <property name="sizeHint" stdset="0">
-                 <width>40</width>
+                 <size>
+                   <width>40</width>
                  <height>20</height>
+                 </size>
                 </property>
                </spacer>
               </item>
@@ -816,8 +818,10 @@
            <enum>Qt::Vertical</enum>
           </property>
           <property name="sizeHint" stdset="0">
-           <width>20</width>
+           <size>
+             <width>20</width>
            <height>40</height>
+           </size>
           </property>
          </spacer>
         </item>
