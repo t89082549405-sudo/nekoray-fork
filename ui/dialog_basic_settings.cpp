@@ -293,7 +293,7 @@ void DialogBasicSettings::accept() {
     D_SAVE_INT(failover_interval)
     D_SAVE_BOOL(failover_multi_enable)
     D_SAVE_INT(failover_multi_count)
-    TM_failover_check_Reset(NekoGui::dataStore->failover_enabled ? NekoGui::dataStore->failover_check_interval : 0);
+    TM_failover_check_Reset(NekoGui::dataStore->failover_enable ? NekoGui::dataStore->failover_interval : 0);
 
     // 关闭连接统计，停止刷新前清空记录。
     if (NekoGui::dataStore->traffic_loop_interval == 0 || !NekoGui::dataStore->connection_statistics) {

@@ -283,10 +283,10 @@ namespace NekoGui {
         _add(new configItem("core_box_clash_api_secret", &core_box_clash_api_secret, itemType::string));
         _add(new configItem("core_box_underlying_dns", &core_box_underlying_dns, itemType::string));
         _add(new configItem("vpn_internal_tun", &vpn_internal_tun, itemType::boolean));
-        _add(new configItem("failover_enabled", &failover_enabled, itemType::boolean));
-        _add(new configItem("failover_threshold", &failover_threshold_ms, itemType::integer));
-        _add(new configItem("failover_interval", &failover_check_interval, itemType::integer));
-        _add(new configItem("failover_multi", &failover_multi_connection, itemType::boolean));
+        _add(new configItem("failover_enabled", &failover_enable, itemType::boolean));
+        _add(new configItem("failover_threshold", &failover_threshold, itemType::integer));
+        _add(new configItem("failover_interval", &failover_interval, itemType::integer));
+        _add(new configItem("failover_multi", &failover_multi_enable, itemType::boolean));
         _add(new configItem("failover_multi_count", &failover_multi_count, itemType::integer));
     }
 

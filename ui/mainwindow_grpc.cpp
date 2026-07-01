@@ -285,7 +285,7 @@ void MainWindow::failover_start() {
 #ifndef NKR_NO_GRPC
     if (!failover_last_check.isNull() && failover_last_check.secsTo(QTime::currentTime()) < 5) return;
     failover_last_check = QTime::currentTime();
-    if (!NekoGui::dataStore->failover_enabled) return;
+    if (!NekoGui::dataStore->failover_enable) return;
     if (NekoGui::dataStore->started_id < 0 || running == nullptr) {
         TM_failover_check->stop();
         return;
@@ -314,8 +314,8 @@ void MainWindow::failover_start() {
     } else if (latency <= 0) {
         MW_show_log(QString("[Failover] #%1 unavailable").arg(currentId));
         needSwitch = true;
-    } else if (latency > NekoGui::dataStore->failover_threshold_ms) {
-        MW_show_log(QString("[Failover] #%1 latency %2ms > threshold %3ms").arg(currentId).arg(latency).arg(NekoGui::dataStore->failover_threshold_ms));
+    } else if (latency > NekoGui::dataStore->failover_threshold) {
+        MW_show_log(QString("[Failover] #%1 latency %2ms > threshold %3ms").arg(currentId).arg(latency).arg(NekoGui::dataStore->failover_threshold));
         needSwitch = true;
     }
 

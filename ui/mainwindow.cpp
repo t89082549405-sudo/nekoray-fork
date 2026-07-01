@@ -445,19 +445,12 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
         if (sec >= 10) TM_failover_check->start(sec * 1000);
     };
     connect(TM_failover_check, &QTimer::timeout, this, [&] { failover_start(); });
-    TM_failover_check_Reset(NekoGui::dataStore->failover_enabled ? NekoGui::dataStore->failover_check_interval : 0);
-
-    // Failover menu toggle
-    auto failoverAction = new QAction(tr("Auto Failover"), this);
-    failoverAction->setCheckable(true);
-    failoverAction->setChecked(NekoGui::dataStore->failover_enabled);
-    ui->menu_preferences->insertAction(ui->menu_open_config_folder, failoverAction);
-    ui->menu_preferences->insertSeparator(ui->menu_open_config_folder);
-    connect(failoverAction, &QAction::triggered, this, [=](bool checked) {
-        NekoGui::dataStore->failover_enabled = checked;
-        NekoGui::dataStore->Save();
-        if (checked) {
-            TM_failover_check_Reset(NekoGui::dataStore->failover_check_interval);
+    TM_failover_check_Reset(NekoGui::dataStore->failover_enable ? NekoGui::dataStore->failover_interval : 0);
+    failoverAction->setChecked(NekoGui::dataStore->failover_enable);
+    connect(failoverAction, &QAction::toggled, [=](bool checked) {
+        NekoGui::dataStore->failover_enable = checked;
+        if (NekoGui::dataStore->failover_enable) {
+            TM_failover_check_Reset(NekoGui::dataStore->failover_interval);
             MW_show_log("[Failover] Enabled");
         } else {
             TM_failover_check->stop();

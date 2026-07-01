@@ -166,10 +166,10 @@ namespace NekoGui {
         QString core_box_underlying_dns = "";
 
         // Failover
-        bool failover_enabled = false;
-        int failover_threshold_ms = 3000;
-        int failover_check_interval = 30;
-        bool failover_multi_connection = false;
+        bool failover_enable = false;
+        int failover_threshold = 3000;
+        int failover_interval = 30;
+        bool failover_multi_enable = false;
         int failover_multi_count = 3;
 
         // Other Core
