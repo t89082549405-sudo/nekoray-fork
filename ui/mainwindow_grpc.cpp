@@ -276,6 +276,98 @@ void MainWindow::speedtest_current() {
 #endif
 }
 
+// failover
+
+static bool failover_in_progress = false;
+static QTime failover_last_check;
+
+void MainWindow::failover_start() {
+#ifndef NKR_NO_GRPC
+    if (!failover_last_check.isNull() && failover_last_check.secsTo(QTime::currentTime()) < 5) return;
+    failover_last_check = QTime::currentTime();
+    if (!NekoGui::dataStore->failover_enabled) return;
+    if (NekoGui::dataStore->started_id < 0 || running == nullptr) {
+        TM_failover_check->stop();
+        return;
+    }
+    if (speedtesting || failover_in_progress) return;
+    failover_in_progress = true;
+
+    auto currentId = NekoGui::dataStore->started_id;
+
+    libcore::TestReq req;
+    req.set_mode(libcore::UrlTest);
+    req.set_timeout(10 * 1000);
+    req.set_url(NekoGui::dataStore->test_latency_url.toStdString());
+
+    bool rpcOK;
+    auto result = NekoGui_rpc::defaultClient->Test(&rpcOK, req);
+    if (!rpcOK) { failover_in_progress = false; return; }
+
+    auto latency = result.ms();
+    auto error = result.error();
+
+    bool needSwitch = false;
+    if (!error.empty()) {
+        MW_show_log(QString("[Failover] #%1 error: %2").arg(currentId).arg(error.c_str()));
+        needSwitch = true;
+    } else if (latency <= 0) {
+        MW_show_log(QString("[Failover] #%1 unavailable").arg(currentId));
+        needSwitch = true;
+    } else if (latency > NekoGui::dataStore->failover_threshold_ms) {
+        MW_show_log(QString("[Failover] #%1 latency %2ms > threshold %3ms").arg(currentId).arg(latency).arg(NekoGui::dataStore->failover_threshold_ms));
+        needSwitch = true;
+    }
+
+    if (needSwitch) {
+        auto nextId = failover_find_next_profile(currentId);
+        if (nextId >= 0 && nextId != currentId) {
+            auto nextProfile = NekoGui::profileManager->GetProfile(nextId);
+            if (nextProfile != nullptr) {
+                MW_show_log(QString("[Failover] Switching to #%1 (%2)").arg(nextId).arg(nextProfile->bean->DisplayTypeAndName()));
+                failover_in_progress = false;
+                neko_start(nextId);
+                return;
+            }
+        }
+        MW_show_log("[Failover] No alternative profile found");
+        TM_failover_check->stop();
+    }
+    failover_in_progress = false;
+#endif
+}
+
+void MainWindow::failover_stop() {
+    TM_failover_check->stop();
+}
+
+int MainWindow::failover_find_next_profile(int currentId) {
+    auto group = NekoGui::profileManager->CurrentGroup();
+    if (group == nullptr) return -1;
+
+    auto profiles = group->ProfilesWithOrder();
+    if (profiles.isEmpty()) return -1;
+
+    int currentIdx = -1;
+    for (int i = 0; i < profiles.size(); i++) {
+        if (profiles[i]->id == currentId) {
+            currentIdx = i;
+            break;
+        }
+    }
+
+    if (currentIdx < 0) return -1;
+
+    for (int offset = 1; offset < profiles.size(); offset++) {
+        int idx = (currentIdx + offset) % profiles.size();
+        if (profiles[idx]->id != currentId) {
+            return profiles[idx]->id;
+        }
+    }
+
+    return -1;
+}
+
 void MainWindow::stop_core_daemon() {
 #ifndef NKR_NO_GRPC
     NekoGui_rpc::defaultClient->Exit();

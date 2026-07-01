@@ -34,6 +34,9 @@ class QTimer;
 inline QTimer *TM_auto_update_subsctiption;
 inline std::function<void(int)> TM_auto_update_subsctiption_Reset_Minute;
 
+inline QTimer *TM_failover_check;
+inline std::function<void(int)> TM_failover_check_Reset;
+
 // String
 
 #define FIRST_OR_SECOND(a, b) a.isEmpty() ? b : a

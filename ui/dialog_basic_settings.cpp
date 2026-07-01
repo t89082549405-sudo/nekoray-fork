@@ -206,6 +206,13 @@ DialogBasicSettings::DialogBasicSettings(QWidget *parent)
 
     D_LOAD_BOOL(skip_cert)
     ui->utlsFingerprint->setCurrentText(NekoGui::dataStore->utlsFingerprint);
+
+    // Failover
+    D_LOAD_BOOL(failover_enable)
+    D_LOAD_INT(failover_threshold)
+    D_LOAD_INT(failover_interval)
+    D_LOAD_BOOL(failover_multi_enable)
+    D_LOAD_INT(failover_multi_count)
 }
 
 DialogBasicSettings::~DialogBasicSettings() {
@@ -279,6 +286,14 @@ void DialogBasicSettings::accept() {
 
     D_SAVE_BOOL(skip_cert)
     NekoGui::dataStore->utlsFingerprint = ui->utlsFingerprint->currentText();
+
+    // Failover
+    D_SAVE_BOOL(failover_enable)
+    D_SAVE_INT(failover_threshold)
+    D_SAVE_INT(failover_interval)
+    D_SAVE_BOOL(failover_multi_enable)
+    D_SAVE_INT(failover_multi_count)
+    TM_failover_check_Reset(NekoGui::dataStore->failover_enabled ? NekoGui::dataStore->failover_check_interval : 0);
 
     // 关闭连接统计，停止刷新前清空记录。
     if (NekoGui::dataStore->traffic_loop_interval == 0 || !NekoGui::dataStore->connection_statistics) {

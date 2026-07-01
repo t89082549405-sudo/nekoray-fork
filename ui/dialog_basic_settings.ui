@@ -691,46 +691,138 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="tab_5">
-      <attribute name="title">
-       <string>Security</string>
-      </attribute>
-      <layout class="QVBoxLayout" name="verticalLayout_4">
-       <item>
-        <widget class="QCheckBox" name="skip_cert">
-         <property name="text">
-          <string>Skip TLS certificate authentication by default (allowInsecure)</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QGroupBox" name="horizontalGroupBox2">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <layout class="QHBoxLayout" name="horizontalLayout_26">
-          <item>
-           <widget class="QLabel" name="label_18">
-            <property name="text">
-             <string>Default uTLS Fingerprint</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QComboBox" name="utlsFingerprint">
-            <property name="editable">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </widget>
-       </item>
-      </layout>
-     </widget>
+      <widget class="QWidget" name="tab_5">
+       <attribute name="title">
+        <string>Security</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout_4">
+        <item>
+         <widget class="QCheckBox" name="skip_cert">
+          <property name="text">
+           <string>Skip TLS certificate authentication by default (allowInsecure)</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QGroupBox" name="horizontalGroupBox2">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <layout class="QHBoxLayout" name="horizontalLayout_26">
+           <item>
+            <widget class="QLabel" name="label_18">
+             <property name="text">
+              <string>Default uTLS Fingerprint</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QComboBox" name="utlsFingerprint">
+             <property name="editable">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="tab_7">
+       <attribute name="title">
+        <string>Failover</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout_7">
+        <item>
+         <widget class="QGroupBox" name="horizontalGroupBox_7">
+          <layout class="QVBoxLayout" name="verticalLayout_8">
+           <item>
+            <widget class="QCheckBox" name="failover_enable">
+             <property name="text">
+              <string>Enable auto failover</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout_29">
+             <item>
+              <widget class="QLabel" name="failover_threshold_l">
+               <property name="text">
+                <string>Latency threshold (ms)</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLineEdit" name="failover_threshold"/>
+             </item>
+             <item>
+              <widget class="QLabel" name="failover_interval_l">
+               <property name="text">
+                <string>Check interval (s)</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLineEdit" name="failover_interval"/>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <widget class="QGroupBox" name="failover_multi_groupbox">
+             <property name="title">
+              <string>Multi-Connection Mode (experimental)</string>
+             </property>
+             <layout class="QHBoxLayout" name="horizontalLayout_30">
+              <item>
+               <widget class="QCheckBox" name="failover_multi_enable">
+                <property name="text">
+                 <string>Enable</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="failover_multi_count_l">
+                <property name="text">
+                 <string>Count</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="failover_multi_count"/>
+              </item>
+              <item>
+               <spacer name="horizontalSpacer">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <width>40</width>
+                 <height>20</height>
+                </property>
+               </spacer>
+              </item>
+             </layout>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <spacer name="verticalSpacer">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <width>20</width>
+           <height>40</height>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </widget>
     </widget>
    </item>
   </layout>

@@ -165,6 +165,13 @@ namespace NekoGui {
         QString core_box_clash_api_secret = "";
         QString core_box_underlying_dns = "";
 
+        // Failover
+        bool failover_enabled = false;
+        int failover_threshold_ms = 3000;
+        int failover_check_interval = 30;
+        bool failover_multi_connection = false;
+        int failover_multi_count = 3;
+
         // Other Core
         ExtraCore *extraCore = new ExtraCore;
 

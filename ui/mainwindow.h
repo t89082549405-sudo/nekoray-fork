@@ -193,6 +193,10 @@ private:
 
     void CheckUpdate();
 
+    void failover_start();
+    void failover_stop();
+    int failover_find_next_profile(int currentId);
+
 protected:
     bool eventFilter(QObject *obj, QEvent *event) override;
 
